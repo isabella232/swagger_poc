@@ -45,3 +45,14 @@ get '/swagger' do
   content_type :json
   Swagger::Blocks.build_root_json([ApiModel]).to_json
 end
+
+get '/ui' do
+  swagger_url = '/swagger'
+  unless params['url'] == swagger_url
+    page_fragment = '#/default'
+    redirect to("/ui?url=#{swagger_url}#{page_fragment}")
+  end
+
+  # http://localhost:4567/ui?url=/swagger#/default
+  send_file File.expand_path('index.html', settings.public_folder)
+end

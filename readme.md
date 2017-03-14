@@ -2,8 +2,7 @@
 
 # Run
 
-- Start Ruby server `rerun 'ruby lib/server.rb'`
-- Start Swagger UI `passenger start`
+- thor run
 
 # Tech
 

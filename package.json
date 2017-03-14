@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "autorest": "^0.9.17",
-    "dredd": "^3.2.0"
+    "dredd": "^3.2.0",
+    "swagger-tools": "^0.10.1"
   },
   "name": "swagger_poc",
   "version": "1.0.0",
