@@ -21,31 +21,37 @@ class ApiModel
   swagger_path '/hello' do
     operation :get do
       key :description, 'Returns a greeting'
-      response 200
+      response 200 do
+        key :description, 'Hello response'
+        schema do
+          key :'$ref', :Hello
+        end
+      end
     end
   end
 
-  swagger_path '/swagger' do
-    operation :get do
-      key :description, 'Returns Swagger 2.0 JSON'
-      response 200
+  swagger_schema :Hello do
+    key :required, [:message]
+    property :message do
+      key :type, :string
     end
   end
 end
 
+# Say hello
 get '/hello' do
   headers 'Access-Control-Allow-Origin' => '*'
   content_type :json
-  { json: 'it worked!' }.to_json
+  JSON.pretty_generate({ message: 'it worked!' })
 end
 
+# Generate and serve Swagger 2.0 JSON
 get '/swagger' do
-  # enable https://github.com/swagger-api/swagger-ui
-  headers 'Access-Control-Allow-Origin' => '*'
   content_type :json
-  Swagger::Blocks.build_root_json([ApiModel]).to_json
+  JSON.pretty_generate Swagger::Blocks.build_root_json([ApiModel])
 end
 
+# Display Swagger UI
 get '/ui' do
   swagger_url = '/swagger'
   unless params['url'] == swagger_url
